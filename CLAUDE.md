@@ -6,12 +6,26 @@ This file is loaded by Claude Code on every session start. All rules here are **
 
 ## 1. Version Control Rules
 
-- Every code change must be committed and pushed to GitHub.
+### Author
 - Author must always be **maxiaovo**. Never use `claude`, `ttmanthatman`, or any other name.
 - Remote: `git@github.com:maxiaovo/sermon_preparing_web.git` or `https://github.com/maxiaovo/sermon_preparing_web.git`.
-- Branch naming: `feature/<name>` for new features, `fix/<name>` for bug fixes.
+
+### Commit
 - Commit message format: `<type>: <description>` (e.g., `feat: add auth module`, `fix: resolve login redirect`).
+- Valid types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `style`.
+- Every code change must be committed and pushed to GitHub immediately after verification.
+
+### Branch Strategy
+- `main`: production-ready code. Never commit directly to `main` — only merge via PR or after full verification.
+- `feature/<name>`: new feature branches (e.g., `feature/auth-module`, `feature/sermon-editor`).
+- `fix/<name>`: bug fix branches (e.g., `fix/login-redirect`).
+- Merge to `main` only when: all verification criteria pass, no open errors in ERROR_LOG.md for this module, ARCHITECTURE.md status is `done`.
+- Delete feature/fix branches after merge.
 - Never force-push to `main`.
+
+### Push
+- Every commit must be pushed immediately.
+- Verify `git log -1 --format='%an %ae'` shows maxiaovo before pushing.
 
 ---
 
@@ -22,12 +36,13 @@ Before writing ANY code, you MUST read these files in order:
 | Step | File | Purpose |
 |------|------|---------|
 | 1 | `ERROR_LOG.md` | Check known errors to avoid repeating mistakes |
-| 2 | `VARIABLES.md` | Check for naming conflicts |
-| 3 | `ARCHITECTURE.md` | Confirm module is defined and approved |
-| 4 | `FILE_STRUCTURE.md` | Check current file versions and status |
+| 2 | `VARIABLES.md` | Check for naming conflicts with existing variables/functions |
+| 3 | `ARCHITECTURE.md` | Confirm module is defined, approved, and dependencies listed |
+| 4 | `FILE_STRUCTURE.md` | Check current file versions and project structure |
 | 5 | `server-messages.md` | Load private config (API keys, DB info, etc.) |
+| 6 | **Reuse Search** | Search npm, GitHub, Claude Code skills for existing solutions before building |
 
-**If any of these files is not read first, do NOT write code.**
+**If any of these 6 steps is skipped, do NOT write code.**
 
 ---
 
@@ -68,8 +83,9 @@ After writing code, you MUST:
 
 ## 7. Reuse First
 
-- Before building anything, check: existing skills, open-source libraries, prior project code, community solutions.
-- Search npm, GitHub, and Claude Code skills for relevant tools.
+- Before building anything, **search existing solutions** as step 6 of the pre-coding checklist.
+- Check in this order: Claude Code skills, npm packages, open-source GitHub projects, prior project code.
+- Record reusable dependencies in `ARCHITECTURE.md` under the module's "External Dependencies" field.
 - Do not reinvent the wheel unless no suitable solution exists.
 
 ---
@@ -92,9 +108,25 @@ After writing code, you MUST:
 
 ## 10. Testing & Verification
 
-- Every module defined in `ARCHITECTURE.md` must include verification criteria.
-- Before marking a module "done", run its verification steps and confirm they pass.
-- Verification evidence over assertions — show output, screenshots, or test results.
+### When to Write Tests
+- **Before code** (TDD): write test first, watch it fail, then implement.
+- **After code** (verification): at minimum, manually verify the module against its ARCHITECTURE.md verification criteria.
+- Both approaches are acceptable — but verification MUST happen before marking any module `done`.
+
+### Test Types
+| Type | Scope | When Required |
+|------|-------|---------------|
+| Unit test | Single function/component | Core logic, data transformations |
+| Integration test | Module-to-module interaction | API endpoints, DB queries |
+| E2E test | Full user flow | Critical user journeys (e.g., sermon prep flow) |
+
+### Verification Gate
+Before marking a module `done`:
+- Run all automated tests for that module.
+- Execute the verification steps listed in `ARCHITECTURE.md` for that module.
+- Show evidence: terminal output, screenshots, or test results.
+- Fix any failures before proceeding to the next module.
+- Evidence over assertions — never claim "it works" without showing proof.
 
 ---
 

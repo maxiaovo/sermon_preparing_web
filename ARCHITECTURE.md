@@ -21,8 +21,9 @@
 - **Responsibility**: What this module does (one sentence).
 - **Inputs**: Data/params it receives.
 - **Outputs**: Data/UI/effects it produces.
-- **Dependencies**: Other modules it relies on.
-- **Verification**: How to confirm this module works correctly.
+- **Internal Dependencies**: Other project modules it relies on.
+- **External Dependencies**: npm packages, APIs, libraries used (recorded from reuse search).
+- **Verification**: Concrete steps to confirm this module works correctly.
 - **Sub-modules** (optional): Smaller components within this module.
 ```
 
