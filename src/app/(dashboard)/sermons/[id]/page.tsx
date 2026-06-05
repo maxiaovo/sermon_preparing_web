@@ -1,6 +1,7 @@
 import { getSermon } from "@/app/_lib/data/sermons";
 import { STAGES } from "@/app/_lib/coaching/stages";
 import { ChatArea } from "@/app/_components/sermon/ChatArea";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function SermonPage({
@@ -21,7 +22,7 @@ export default async function SermonPage({
     <div className="flex h-[calc(100vh-0px)]">
       {/* Stage Sidebar */}
       <aside className="flex w-56 shrink-0 flex-col border-r border-stone-200 bg-white">
-        <div className="flex h-14 items-center border-b border-stone-100 px-5">
+        <div className="flex h-14 items-center justify-between border-b border-stone-100 px-5">
           <a
             href="/dashboard"
             className="flex items-center gap-2 text-sm text-stone-400 hover:text-stone-600 transition-colors"
@@ -31,6 +32,12 @@ export default async function SermonPage({
             </svg>
             返回
           </a>
+          <Link
+            href={`/sermons/${sermon.id}/outline`}
+            className="rounded-md px-2 py-1 text-xs font-medium text-stone-500 hover:bg-stone-100 hover:text-stone-700 transition-colors"
+          >
+            大纲
+          </Link>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
