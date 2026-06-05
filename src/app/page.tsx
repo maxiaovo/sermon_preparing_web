@@ -22,12 +22,6 @@ export default function Home() {
           >
             登录
           </Link>
-          <Link
-            href="/register"
-            className="rounded-lg border border-stone-300 px-6 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 transition-colors"
-          >
-            注册
-          </Link>
         </div>
 
         <p className="text-xs text-stone-400 mt-12">

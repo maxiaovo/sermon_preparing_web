@@ -1,9 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import bcrypt from "bcryptjs";
 import { loginSchema } from "@/app/_lib/schemas";
 import { prisma } from "@/app/_lib/prisma";
+import { verifyTeamchatUser, getTeamchatUser } from "@/app/_lib/teamchat-db";
+
+function syntheticEmail(username: string) {
+  return `${username}@liao.xiaogushi.us`;
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -14,27 +18,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: { label: "邮箱", type: "email" },
+        username: { label: "用户名", type: "text" },
         password: { label: "密码", type: "password" },
       },
       async authorize(credentials) {
         const parsed = loginSchema.safeParse(credentials);
         if (!parsed.success) return null;
 
-        const { email, password } = parsed.data;
+        const { username, password } = parsed.data;
 
-        const user = await prisma.user.findUnique({ where: { email } });
-        if (!user || !user.hashedPassword) return null;
+        const teamchatUser = await verifyTeamchatUser(username, password);
+        if (!teamchatUser) return null;
 
-        const isValid = await bcrypt.compare(password, user.hashedPassword);
-        if (!isValid) return null;
+        const email = syntheticEmail(teamchatUser.username);
+        const name = teamchatUser.nickname ?? teamchatUser.username;
+        const id = String(teamchatUser.id);
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
-        };
+        // Upsert shadow user in Prisma for FK relationships
+        await prisma.user.upsert({
+          where: { email },
+          update: { name, id },
+          create: { id, email, name },
+        });
+
+        return { id, email, name };
       },
     }),
   ],

@@ -6,7 +6,11 @@ export default function middleware(req: NextRequest) {
     req.cookies.get("authjs.session-token")?.value ??
     req.cookies.get("__Secure-authjs.session-token")?.value;
 
-  if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
+  if (pathname.startsWith("/register")) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (pathname.startsWith("/login")) {
     if (sessionToken) {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }

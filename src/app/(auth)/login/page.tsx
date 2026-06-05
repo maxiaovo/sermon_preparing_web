@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { loginUser } from "@/app/_lib/actions/auth";
 
 export default function LoginPage() {
@@ -30,7 +29,7 @@ export default function LoginPage() {
           SermonPrep
         </h1>
         <p className="mt-1 text-sm text-stone-500">
-          仅限 @liao.xiaogushi.us 用户登录
+          使用团队聊天账号登录
         </p>
       </div>
 
@@ -43,19 +42,19 @@ export default function LoginPage() {
       <form action={handleSubmit} className="space-y-4">
         <div>
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="block text-sm font-medium text-stone-700"
           >
-            邮箱
+            用户名
           </label>
           <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
+            id="username"
+            name="username"
+            type="text"
+            autoComplete="username"
             required
             className="mt-1 block w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 placeholder-stone-400 focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
-            placeholder="you@example.com"
+            placeholder="请输入用户名"
           />
         </div>
 
@@ -85,16 +84,6 @@ export default function LoginPage() {
           {loading ? "登录中…" : "登录"}
         </button>
       </form>
-
-      <p className="mt-4 text-center text-sm text-stone-500">
-        还没有账号？{" "}
-        <Link
-          href="/register"
-          className="font-medium text-stone-800 hover:underline"
-        >
-          立即注册
-        </Link>
-      </p>
     </div>
   );
 }
