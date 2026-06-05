@@ -13,8 +13,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "小故事讲道预备 — 讲道预备助手",
-  description: "小故事教会的AI引导讲道预备平台，通过智慧的提问帮助你深入思考神的话语。",
+  title: "SermonPrep — 讲道预备助手",
+  description: "AI引导的讲道预备平台，通过智慧的提问帮助你深入思考神的话语。",
 };
 
 export default function RootLayout({
@@ -29,9 +29,6 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-stone-50 text-stone-800 font-sans">
         {children}
-        <footer className="text-center py-4 text-xs text-stone-400">
-          小故事教会 · 开发者 游乐园司机
-        </footer>
       </body>
     </html>
   );

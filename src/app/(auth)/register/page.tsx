@@ -26,7 +26,7 @@ export default function RegisterPage() {
     <div className="rounded-xl border border-stone-200 bg-white p-8 shadow-sm">
       <div className="mb-6 text-center">
         <h1 className="font-serif text-2xl font-bold text-stone-800">
-          小故事讲道预备
+          SermonPrep
         </h1>
         <p className="mt-1 text-sm text-stone-500">
           开始你的 AI 引导讲道预备之旅

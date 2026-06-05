@@ -6,7 +6,7 @@ export default function Home() {
       <main className="flex max-w-2xl flex-col items-center gap-8 text-center">
         <div className="space-y-4">
           <p className="font-serif text-5xl font-bold tracking-tight text-stone-800 sm:text-6xl">
-            小故事讲道预备
+            SermonPrep
           </p>
           <p className="text-lg text-stone-500 leading-relaxed">
             通过智慧的提问引导你深入思考神的话语
