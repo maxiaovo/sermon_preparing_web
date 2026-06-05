@@ -11,5 +11,20 @@ export const loginSchema = z.object({
   password: z.string().min(1, "请输入密码"),
 });
 
+export const createSermonSchema = z.object({
+  title: z.string().min(1, "请输入讲道标题").max(200),
+  passage: z.string().min(1, "请输入经文").max(200),
+  description: z.string().max(500).optional(),
+});
+
+export const updateSermonSchema = z.object({
+  title: z.string().min(1).max(200).optional(),
+  passage: z.string().min(1).max(200).optional(),
+  description: z.string().max(500).optional(),
+  status: z.enum(["DRAFT", "IN_PROGRESS", "COMPLETED"]).optional(),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type CreateSermonInput = z.infer<typeof createSermonSchema>;
+export type UpdateSermonInput = z.infer<typeof updateSermonSchema>;
