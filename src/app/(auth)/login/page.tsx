@@ -30,7 +30,7 @@ export default function LoginPage() {
           SermonPrep
         </h1>
         <p className="mt-1 text-sm text-stone-500">
-          登录以继续你的讲道预备
+          仅限 @liao.xiaogushi.us 用户登录
         </p>
       </div>
 

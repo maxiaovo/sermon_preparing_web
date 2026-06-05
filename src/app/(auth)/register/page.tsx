@@ -29,7 +29,7 @@ export default function RegisterPage() {
           SermonPrep
         </h1>
         <p className="mt-1 text-sm text-stone-500">
-          开始你的 AI 引导讲道预备之旅
+          仅限 @liao.xiaogushi.us 邮箱注册
         </p>
       </div>
 

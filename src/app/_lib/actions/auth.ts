@@ -5,7 +5,16 @@ import { prisma } from "@/app/_lib/prisma";
 import { registerSchema, loginSchema } from "@/app/_lib/schemas";
 import { signIn, signOut } from "@/app/_lib/auth";
 
-export async function registerUser(formData: FormData) {
+const ALLOWED_DOMAIN = "@liao.xiaogushi.us";
+
+function checkEmailDomain(email: string) {
+  if (!email.endsWith(ALLOWED_DOMAIN)) {
+    return { error: `仅限 ${ALLOWED_DOMAIN} 邮箱注册` };
+  }
+  return null;
+}
+
+export async function registerUser(formData: FormData): Promise<{ error?: string; success?: boolean }> {
   const parsed = registerSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -21,6 +30,9 @@ export async function registerUser(formData: FormData) {
 
   const { name, email, password } = parsed.data;
 
+  const domainCheck = checkEmailDomain(email);
+  if (domainCheck) return domainCheck;
+
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     return { error: "该邮箱已被注册" };
@@ -34,7 +46,7 @@ export async function registerUser(formData: FormData) {
   return { success: true };
 }
 
-export async function loginUser(formData: FormData) {
+export async function loginUser(formData: FormData): Promise<{ error?: string; success?: boolean }> {
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -46,6 +58,9 @@ export async function loginUser(formData: FormData) {
       error: issues.map((e) => e.message).join("；"),
     };
   }
+
+  const domainCheck = checkEmailDomain(parsed.data.email);
+  if (domainCheck) return domainCheck;
 
   try {
     await signIn("credentials", {
